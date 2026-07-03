@@ -6,7 +6,7 @@ test.beforeEach(async ({ page }) => {
     await page.getByText('Form Layouts').click()
 })
 
-test('locator syntax rules', async ({ page }) => {
+test.skip('Locator syntax rules', async ({ page }) => {
     // by Tag
     page.locator('input')
 
@@ -33,4 +33,19 @@ test('locator syntax rules', async ({ page }) => {
 
     // by XPath (NOT RECOMMENDED)
     page.locator('//*[@id="inputEmail1"]')
+})
+
+test('User facing locators', async ({ page }) => {
+    await page.getByRole('textbox', { name: "Email" }).first().click()
+    await page.getByRole('button', { name: "Sign in" }).first().click()
+
+    await page.getByLabel('Email').first().click()
+
+    await page.getByPlaceholder('Jane Doe').click()
+
+    await page.getByText('Using the Grid').click()
+
+    await page.getByTestId('Banana').click()
+
+    await page.getByTitle('IoT Dashboard').click()
 })

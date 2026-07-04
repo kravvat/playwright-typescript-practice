@@ -35,7 +35,7 @@ test.skip('Locator syntax rules', async ({ page }) => {
     page.locator('//*[@id="inputEmail1"]')
 })
 
-test('User facing locators', async ({ page }) => {
+test.skip('User facing locators', async ({ page }) => {
     await page.getByRole('textbox', { name: "Email" }).first().click()
     await page.getByRole('button', { name: "Sign in" }).first().click()
 
@@ -48,4 +48,14 @@ test('User facing locators', async ({ page }) => {
     await page.getByTestId('Banana').click()
 
     await page.getByTitle('IoT Dashboard').click()
+})
+
+test('Locating child elements', async ({ page }) => {
+    await page.locator('nb-card nb-radio :text-is("Option 1")').click()
+    await page.locator('nb-card').locator('nb-radio').locator(':text-is("Option 2")').click()
+
+    await page.locator('nb-card').getByRole('button', { name: "Sign in" }).first().click()
+
+    // by Index (NOT RECOMMENDED)
+    await page.locator('nb-card').nth(3).getByRole('button').click()
 })

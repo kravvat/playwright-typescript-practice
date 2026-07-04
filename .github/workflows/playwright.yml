@@ -22,5 +22,7 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # TO-DO setup localhost 4200
+
       - name: Run Playwright tests
         run: npx playwright test

@@ -1,4 +1,4 @@
-import { test } from "@playwright/test"
+import { test, expect } from "@playwright/test"
 
 test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:4200/')
@@ -60,7 +60,7 @@ test.skip('Locating child elements', async ({ page }) => {
     await page.locator('nb-card').nth(3).getByRole('button').click()
 })
 
-test('Locating parent elements', async ({ page }) => {
+test.skip('Locating parent elements', async ({ page }) => {
     await page.locator('nb-card', { hasText: "Using the Grid" }).getByRole('textbox', { name: "Email" }).click()
     await page.locator('nb-card', { has: page.locator('#inputEmail1') }).getByRole('textbox', { name: "Email" }).click()
 
@@ -75,4 +75,41 @@ test('Locating parent elements', async ({ page }) => {
         .click()
 
     await page.locator(':text-is("Using the Grid")').locator('..').getByRole('textbox', { name: "Email" }).click()
+})
+
+test.skip('Reusing the locators', async ({ page }) => {
+    const basicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
+    const emailField = basicForm.getByRole('textbox', { name: "Email" })
+
+    const email: string = "kacper@gmail.com"
+    const password: string = "StrongPassword123!"
+
+    await emailField.fill(email)
+    await basicForm.getByRole('textbox', { name: "Password" }).fill(password)
+    await basicForm.locator(".custom-checkbox").click()
+    await basicForm.getByRole('button', { name: "Submit" }).click()
+
+    await expect(emailField).toHaveValue(email)
+})
+
+test('Extracting values', async ({ page }) => {
+    // single text value
+    const basicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
+    const buttonText: string | null = await basicForm.locator('button').textContent()
+    expect(buttonText).toEqual('Submit')
+
+    // all text values
+    const allRadioLabels: Array<string> = await page.locator('nb-radio').allTextContents()
+    expect(allRadioLabels).toContain("Disabled Option")
+
+    // input value
+    const emailField = basicForm.getByRole('textbox', { name: "Email" })
+    const expectedEmail: string = "kacper@gmail.com"
+    await emailField.fill(expectedEmail)
+    const actualEmail = await emailField.inputValue()
+    expect(actualEmail).toEqual(expectedEmail)
+
+    // atribute value
+    const expectedPlaceholderValue = await emailField.getAttribute('placeholder')
+    expect(expectedPlaceholderValue).toEqual("Email")
 })

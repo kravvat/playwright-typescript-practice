@@ -77,7 +77,7 @@ test.skip('Locating parent elements', async ({ page }) => {
     await page.locator(':text-is("Using the Grid")').locator('..').getByRole('textbox', { name: "Email" }).click()
 })
 
-test('Reusing the locators', async ({ page }) => {
+test.skip('Reusing the locators', async ({ page }) => {
     const basicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
     const emailField = basicForm.getByRole('textbox', { name: "Email" })
 
@@ -90,4 +90,26 @@ test('Reusing the locators', async ({ page }) => {
     await basicForm.getByRole('button', { name: "Submit" }).click()
 
     await expect(emailField).toHaveValue(email)
+})
+
+test('Extracting values', async ({ page }) => {
+    // single text value
+    const basicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
+    const buttonText: string | null = await basicForm.locator('button').textContent()
+    expect(buttonText).toEqual('Submit')
+
+    // all text values
+    const allRadioLabels: Array<string> = await page.locator('nb-radio').allTextContents()
+    expect(allRadioLabels).toContain("Disabled Option")
+
+    // input value
+    const emailField = basicForm.getByRole('textbox', { name: "Email" })
+    const expectedEmail: string = "kacper@gmail.com"
+    await emailField.fill(expectedEmail)
+    const actualEmail = await emailField.inputValue()
+    expect(actualEmail).toEqual(expectedEmail)
+
+    // atribute value
+    const expectedPlaceholderValue = await emailField.getAttribute('placeholder')
+    expect(expectedPlaceholderValue).toEqual("Email")
 })

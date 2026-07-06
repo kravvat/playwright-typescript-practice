@@ -92,7 +92,7 @@ test.skip('Reusing the locators', async ({ page }) => {
     await expect(emailField).toHaveValue(email)
 })
 
-test('Extracting values', async ({ page }) => {
+test.skip('Extracting values', async ({ page }) => {
     // single text value
     const basicForm = page.locator('nb-card').filter({ hasText: "Basic form" })
     const buttonText: string | null = await basicForm.locator('button').textContent()
@@ -112,4 +112,22 @@ test('Extracting values', async ({ page }) => {
     // atribute value
     const expectedPlaceholderValue = await emailField.getAttribute('placeholder')
     expect(expectedPlaceholderValue).toEqual("Email")
+})
+
+test.skip('Assertions', async ({ page }) => {
+    const basicFormButton = page.locator('nb-card').filter({ hasText: "Basic form" }).locator('button')
+
+    // general assertions
+    const value: number = 5
+    expect(value).toEqual(5)
+
+    const text = await basicFormButton.textContent()
+    expect(text).toEqual('Submit')
+
+    // locator assertion
+    await expect(basicFormButton).toHaveText('Submit')
+
+    // soft assertion
+    await expect.soft(basicFormButton).toHaveText('notSubmit')
+    await basicFormButton.click()
 })

@@ -1,6 +1,19 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
+  /*
+  // whole suite timeout
+  globalTimeout: 60000,
+
+  // single scenario timeout
+  timeout: 10000,
+
+  // we can overwrite the default timeout for assertions
+  expect: {
+    timeout: 2000
+  },
+  */
+
   testDir: './tests',
 
   fullyParallel: true,
@@ -14,6 +27,12 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
+    /*
+    // lowest level timeouts
+    actionTimeout: 5000,
+    navigationTimeout: 5000,
+    */
+
     trace: 'on-first-retry',
   },
 

@@ -56,3 +56,34 @@ test('Checkboxes', async ({ page }) => {
         expect(await checkbox.isChecked()).toBeFalsy()
     }
 })
+
+test('Lists and Dropdowns', async ({ page }) => {
+    const dropdownChevron = page.locator('ngx-header nb-select')
+
+    // this can be used if list has a UL tag
+    page.getByRole('list')
+    // this can be used if list has a LI tag
+    page.getByRole('listitem')
+
+    // this is the one way of locating our list...
+    let optionList = page.getByRole('list').locator('nb-option')
+
+    // but this is shorter
+    optionList = page.locator('nb-option-list nb-option')
+
+    const themes = ["Light", "Dark", "Cosmic", "Corporate"]
+    const themeClasses: Record<string, string> = {
+        Light: 'nb-theme-default',
+        Dark: 'nb-theme-dark',
+        Cosmic: 'nb-theme-cosmic',
+        Corporate: 'nb-theme-corporate',
+    }
+
+    for (const theme of themes) {
+        await dropdownChevron.click()
+        await expect(optionList).toHaveText(themes)
+        await optionList.getByText(theme).click()
+
+        await expect(page.locator('body')).toContainClass(themeClasses[theme])
+    }
+})

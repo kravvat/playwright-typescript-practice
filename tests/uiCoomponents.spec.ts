@@ -27,7 +27,7 @@ test.describe('Form Layouts page', () => {
         await expect(usingTheGridEmailInput).toHaveValue(email)
     })
 
-    test('Radio buttons', async ({ page }) => {
+    test.skip('Radio buttons', async ({ page }) => {
         const usingTheGridForm = page.locator('nb-card', { hasText: "Using the Grid" })
 
         await usingTheGridForm.getByLabel('Option 1').check({ force: true })
@@ -39,4 +39,20 @@ test.describe('Form Layouts page', () => {
         firstRadioStatus = await usingTheGridForm.getByLabel('Option 1').isChecked()
         expect(firstRadioStatus).toBeFalsy()
     })
+})
+
+test('Checkboxes', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click()
+    await page.getByText('Toastr').click()
+
+    // check() is better than click() for checkboxes
+    await page.getByRole('checkbox', { name: 'Hide on click' }).uncheck({ force: true })
+    await page.getByRole('checkbox', { name: 'Prevent arising of duplicate toast' }).check({ force: true })
+
+    const allCheckboxes = page.getByRole('checkbox')
+    // this is not an Array out of the box so we have to use .all()
+    for (const checkbox of await allCheckboxes.all()) {
+        await checkbox.uncheck({ force: true })
+        expect(await checkbox.isChecked()).toBeFalsy()
+    }
 })

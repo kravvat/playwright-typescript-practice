@@ -86,4 +86,9 @@ test('Lists and Dropdowns', async ({ page }) => {
 
         await expect(page.locator('body')).toContainClass(themeClasses[theme])
     }
+
+    const header = page.locator('nb-layout-header')
+    await dropdownChevron.click()
+    await optionList.getByText('Cosmic').click()
+    await expect(header).toHaveCSS('background-color', 'rgb(50, 50, 89)')
 })

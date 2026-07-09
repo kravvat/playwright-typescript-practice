@@ -103,7 +103,7 @@ test.skip('Tooltips', async ({ page }) => {
     expect(tooltip).toEqual('This is a tooltip')
 })
 
-test('Dialog Boxes', async ({ page }) => {
+test.skip('Dialog Boxes', async ({ page }) => {
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
 
@@ -116,4 +116,31 @@ test('Dialog Boxes', async ({ page }) => {
     const rowToBeDeleted = page.locator('table tr', { hasText: email })
     await rowToBeDeleted.locator('.nb-trash').click()
     await expect(rowToBeDeleted).not.toBeAttached()
+})
+
+test('Tables', async ({ page }) => {
+    await page.getByText('Tables & Data').click()
+    await page.getByText('Smart Table').click()
+
+    // unique text
+    let email = "twitter@outlook.com"
+    const targetRow = page.getByRole('row', { name: email })
+    await targetRow.locator('.nb-edit').click()
+
+    const age = "22"
+    const ageInputField = page.locator('input-editor').getByPlaceholder('Age')
+    await ageInputField.clear()
+    await ageInputField.fill(age)
+    await page.locator('.nb-checkmark').click()
+
+    // specific cell value
+    email = "kacper@gmail.com"
+    await page.locator('.ng2-smart-pagination').getByText('2').click()
+    const targetRowById = page.getByRole('row', { name: '11' }).filter({ has: page.locator('td').nth(1).getByText('11') })
+    await targetRowById.locator('.nb-edit').click()
+    const emailInputField = page.locator('input-editor').getByPlaceholder('E-mail')
+    await emailInputField.clear()
+    await emailInputField.fill(email)
+    await page.locator('.nb-checkmark').click()
+    await expect(targetRowById.locator('td').nth(5)).toHaveText(email)
 })

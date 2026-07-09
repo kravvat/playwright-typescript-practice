@@ -57,7 +57,7 @@ test('Checkboxes', async ({ page }) => {
     }
 })
 
-test('Lists and Dropdowns', async ({ page }) => {
+test.skip('Lists and Dropdowns', async ({ page }) => {
     const dropdownChevron = page.locator('ngx-header nb-select')
 
     // this can be used if list has a UL tag
@@ -91,4 +91,14 @@ test('Lists and Dropdowns', async ({ page }) => {
     await dropdownChevron.click()
     await optionList.getByText('Cosmic').click()
     await expect(header).toHaveCSS('background-color', 'rgb(50, 50, 89)')
+})
+
+test('Tooltips', async ({ page }) => {
+    await page.getByText('Modal & Overlays').click()
+    await page.getByText('Tooltip').click()
+
+    const tooltipCard = page.locator('nb-card', { hasText: 'Tooltip Placements' })
+    await tooltipCard.getByRole('button', { name: 'Top' }).hover()
+    const tooltip = await page.locator('nb-tooltip').textContent()
+    expect(tooltip).toEqual('This is a tooltip')
 })

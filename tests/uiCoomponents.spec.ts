@@ -143,4 +143,26 @@ test('Tables', async ({ page }) => {
     await emailInputField.fill(email)
     await page.locator('.nb-checkmark').click()
     await expect(targetRowById.locator('td').nth(5)).toHaveText(email)
+
+    // multiple rows
+    const ages = ["20", "30", "40", "200"]
+    const ageFilterField = await page.locator('input-filter').getByPlaceholder('Age')
+
+    await page.locator('.ng2-smart-pagination').getByText('1').click()
+    for (let age of ages) {
+        await ageFilterField.clear()
+        await ageFilterField.fill(age)
+        await page.waitForTimeout(1000)
+
+        if (age === "200") {
+            await expect(await page.getByRole('table').textContent()).toContain('No data found')
+            break
+        }
+
+        const ageRows = await page.locator('tbody tr')
+        for (let row of await ageRows.all()) {
+            const cellValue = await row.locator('td').last().textContent()
+            await expect(cellValue).toEqual(age)
+        }
+    }
 })

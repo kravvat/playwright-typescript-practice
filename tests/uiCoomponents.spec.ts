@@ -172,8 +172,29 @@ test('Datepicker', async ({ page }) => {
     await page.getByText('Datepicker').click()
 
     const calendarInputField = page.getByPlaceholder('Form Picker')
-    await calendarInputField.click()
 
+    // hardcoding dates is not recommended
+    await calendarInputField.click()
     await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', { exact: true }).click()
     await expect(calendarInputField).toHaveValue('Jul 1, 2026')
+
+    // using Date object is preferable
+    let date = new Date()
+    date.setDate(date.getDate() + 30)
+    const expectedDate = date.getDate().toString()
+    const expectedMonthShort = date.toLocaleDateString('En-US', { month: "short" })
+    const expectedMonthLong = date.toLocaleDateString('En-US', { month: "long" })
+    const expectedYear = date.getFullYear()
+
+    await calendarInputField.click()
+    let actualCalendarMonthYear = await page.locator('nb-calendar-view-mode').textContent()
+    const expectedCalendarMonthYear = ` ${expectedMonthLong} ${expectedYear} `
+
+    while (!actualCalendarMonthYear?.includes(expectedCalendarMonthYear)) {
+        await page.locator('nb-calendar-pageable-navigation [data-name="chevron-right"]').click()
+        actualCalendarMonthYear = await page.locator('nb-calendar-view-mode').textContent()
+    }
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, { exact: true }).click()
+    await expect(calendarInputField).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
 })

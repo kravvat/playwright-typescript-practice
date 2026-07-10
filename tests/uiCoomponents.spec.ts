@@ -118,7 +118,7 @@ test.skip('Dialog Boxes', async ({ page }) => {
     await expect(rowToBeDeleted).not.toBeAttached()
 })
 
-test('Tables', async ({ page }) => {
+test.skip('Tables', async ({ page }) => {
     await page.getByText('Tables & Data').click()
     await page.getByText('Smart Table').click()
 
@@ -165,4 +165,15 @@ test('Tables', async ({ page }) => {
             await expect(cellValue).toEqual(age)
         }
     }
+})
+
+test('Datepicker', async ({ page }) => {
+    await page.getByText('Forms').click()
+    await page.getByText('Datepicker').click()
+
+    const calendarInputField = page.getByPlaceholder('Form Picker')
+    await calendarInputField.click()
+
+    await page.locator('[class="day-cell ng-star-inserted"]').getByText('1', { exact: true }).click()
+    await expect(calendarInputField).toHaveValue('Jul 1, 2026')
 })

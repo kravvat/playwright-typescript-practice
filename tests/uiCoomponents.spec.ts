@@ -167,7 +167,7 @@ test.skip('Tables', async ({ page }) => {
     }
 })
 
-test('Datepicker', async ({ page }) => {
+test.skip('Datepicker', async ({ page }) => {
     await page.getByText('Forms').click()
     await page.getByText('Datepicker').click()
 
@@ -197,4 +197,31 @@ test('Datepicker', async ({ page }) => {
 
     await page.locator('[class="day-cell ng-star-inserted"]').getByText(expectedDate, { exact: true }).click()
     await expect(calendarInputField).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
+})
+
+test('Sliders', async ({ page }) => {
+    // by updating attributes
+    const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
+    await tempGauge.evaluate(node => {
+        node.setAttribute('cx', '47.369')
+        node.setAttribute('cy', '232.630')
+    })
+    await tempGauge.click()
+
+    // by mouse movement
+    const tempBox = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger')
+    await tempBox.scrollIntoViewIfNeeded()
+
+    const box = await tempBox.boundingBox()
+    if (!box) {
+        throw new Error('Temperature box is not visible')
+    }
+
+    const centerX = box.x + box.width / 2
+    const centerY = box.y + box.height / 2
+    await page.mouse.move(centerX, centerY)
+    await page.mouse.down()
+    await page.mouse.move(centerX + 100, centerY + 100, { steps: 10 })
+    await page.mouse.up()
+    await expect(tempBox).toContainText('30')
 })

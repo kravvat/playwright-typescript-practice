@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "importHelpers": true,
     "module": "es2020",
     "outDir": "./dist/out-tsc",
@@ -12,13 +13,17 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "lib": [
       "es2017",
       "dom"
     ],
     "plugins": [
-      { "name": "tslint-language-service"}
+      {
+        "name": "tslint-language-service"
+      }
     ]
   }
 }

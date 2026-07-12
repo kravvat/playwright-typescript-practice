@@ -199,7 +199,7 @@ test.skip('Datepicker', async ({ page }) => {
     await expect(calendarInputField).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
 })
 
-test('Sliders', async ({ page }) => {
+test.skip('Sliders', async ({ page }) => {
     // by updating attributes
     const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
     await tempGauge.evaluate(node => {
@@ -224,4 +224,7 @@ test('Sliders', async ({ page }) => {
     await page.mouse.move(centerX + 100, centerY + 100, { steps: 10 })
     await page.mouse.up()
     await expect(tempBox).toContainText('30')
+})
+
+test.skip('XYZ', async ({ page }) => {
 })

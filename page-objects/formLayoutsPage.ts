@@ -33,19 +33,34 @@ export class FormLayoutsPage {
         this.usingTheGridSignInButton = this.usingTheGridForm.getByRole('button', { name: "SIgn in" })
     }
 
-    async submitUsingTheGrid(email: string, password: string, optionText: string) {
-        const usingTheGridOptionRadio = this.usingTheGridForm.getByRole('radio', { name: optionText })
+    /**
+     * This method fills out, submits, and validates the Using the Grid form 
+     * @param email - email address of the user
+     * @param password - password of the user
+     * @param optionText - optional radio button to be checked by the user
+     */
+    async submitUsingTheGrid(email: string, password: string, optionText?: "Option 1" | "Option 2") {
+        if (optionText) {
+            const usingTheGridOptionRadio = this.usingTheGridForm.getByRole('radio', { name: optionText })
+
+            await usingTheGridOptionRadio.check({ force: true })
+            await expect(usingTheGridOptionRadio).toBeChecked()
+        }
 
         await this.usingTheGridEmailInput.fill(email)
         await this.usingTheGridPasswordInput.fill(password)
-        await usingTheGridOptionRadio.check({ force: true })
         await this.usingTheGridSignInButton.click()
 
         await expect(this.usingTheGridEmailInput).toHaveValue(email)
         await expect(this.usingTheGridPasswordInput).toHaveValue(password)
-        await expect(usingTheGridOptionRadio).toBeChecked()
     }
 
+    /**
+     * This method fills out, submits, and validates the Inline form
+     * @param name - first and last name of the user
+     * @param email - email address of the user
+     * @param rememberMe - true or false, depending on whether the user wants their session to be cached
+     */
     async submitInlineForm(name: string, email: string, rememberMe: boolean) {
         await this.inlineFormNameInput.fill(name)
         await this.inlineFormEmailInput.fill(email)

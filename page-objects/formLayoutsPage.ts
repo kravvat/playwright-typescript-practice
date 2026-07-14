@@ -34,10 +34,9 @@ export class FormLayoutsPage {
     }
 
     /**
-     * This method fills out, submits, and validates the Using the Grid form 
-     * @param email - email address of the user
-     * @param password - password of the user
-     * @param optionText - optional radio button to be checked by the user
+     * Fills and submits the "Using the Grid" form.
+     * Verifies the entered credentials and selected radio button.
+     * @param optionText Optional radio button selected before submission.
      */
     async submitUsingTheGrid(email: string, password: string, optionText?: "Option 1" | "Option 2") {
         if (optionText) {
@@ -56,10 +55,9 @@ export class FormLayoutsPage {
     }
 
     /**
-     * This method fills out, submits, and validates the Inline form
-     * @param name - first and last name of the user
-     * @param email - email address of the user
-     * @param rememberMe - true or false, depending on whether the user wants their session to be cached
+     * Fills and submits the "Inline form" form.
+     * Verifies the entered credentials and checkbox selection.
+     * @param rememberMe Optional checkbox selected before submission.
      */
     async submitInlineForm(name: string, email: string, rememberMe: boolean) {
         await this.inlineFormNameInput.fill(name)

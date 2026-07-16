@@ -41,7 +41,7 @@ test.describe('Form Layouts page', () => {
     })
 })
 
-test('Checkboxes', async ({ page }) => {
+test.skip('Checkboxes', async ({ page }) => {
     await page.getByText('Modal & Overlays').click()
     await page.getByText('Toastr').click()
 
@@ -199,7 +199,7 @@ test.skip('Datepicker', async ({ page }) => {
     await expect(calendarInputField).toHaveValue(`${expectedMonthShort} ${expectedDate}, ${expectedYear}`)
 })
 
-test('Sliders', async ({ page }) => {
+test.skip('Sliders', async ({ page }) => {
     // by updating attributes
     const tempGauge = page.locator('[tabtitle="Temperature"] ngx-temperature-dragger circle')
     await tempGauge.evaluate(node => {

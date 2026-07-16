@@ -131,4 +131,3 @@ test.skip('Assertions', async ({ page }) => {
     await expect.soft(basicFormButton).toHaveText('notSubmit')
     await basicFormButton.click()
 })
-

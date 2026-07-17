@@ -1,13 +1,12 @@
 import type { Page } from "@playwright/test"
+import { HelperBase } from "./helperBase"
 
 type NavigationGroup = 'Forms' | 'Modal & Overlays' | 'Tables & Data'
 
-export class NavigationMenu {
-
-    private readonly page: Page
+export class NavigationMenu extends HelperBase {
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
     }
 
     private async selectNavigationGroup(navigationGroup: NavigationGroup) {

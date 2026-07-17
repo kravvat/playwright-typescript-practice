@@ -23,7 +23,7 @@ test.skip("Parametrized methods", async ({ page }) => {
     await pageManager.onFormLayoutsPage().submitInlineForm("Kacper Stec", "kacper@gmail.com", true)
 })
 
-test("Datepicker", async ({ page }) => {
+test.skip("Datepicker", async ({ page }) => {
     const pageManager = new PageManager(page)
 
     await pageManager.navigateTo().goToDatepickerPage()

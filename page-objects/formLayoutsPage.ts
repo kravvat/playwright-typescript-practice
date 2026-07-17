@@ -1,9 +1,8 @@
 import type { Page, Locator } from "@playwright/test"
 import { expect } from "@playwright/test"
+import { HelperBase } from "./helperBase"
 
-export class FormLayoutsPage {
-
-    private readonly page: Page
+export class FormLayoutsPage extends HelperBase {
 
     // Inline form
     private readonly inlineForm: Locator
@@ -19,7 +18,7 @@ export class FormLayoutsPage {
     private readonly usingTheGridSignInButton: Locator
 
     constructor(page: Page) {
-        this.page = page
+        super(page)
 
         this.inlineForm = this.page.locator('nb-card', { hasText: "Inline form" })
         this.inlineFormNameInput = this.inlineForm.getByRole('textbox', { name: "Jane Doe" })

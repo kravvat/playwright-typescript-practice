@@ -5,7 +5,7 @@ test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:4200/')
 })
 
-test.skip('Navigation', async ({ page }) => {
+test('Navigation', async ({ page }) => {
     const pageManager = new PageManager(page)
 
     await pageManager.navigateTo().goToFormLayoutsPage()
@@ -15,7 +15,7 @@ test.skip('Navigation', async ({ page }) => {
     await pageManager.navigateTo().goToSmartTablePage()
 })
 
-test.skip("Parametrized methods", async ({ page }) => {
+test("Parametrized methods", async ({ page }) => {
     const pageManager = new PageManager(page)
 
     await pageManager.navigateTo().goToFormLayoutsPage()
@@ -23,7 +23,7 @@ test.skip("Parametrized methods", async ({ page }) => {
     await pageManager.onFormLayoutsPage().submitInlineForm("Kacper Stec", "kacper@gmail.com", true)
 })
 
-test.skip("Datepicker", async ({ page }) => {
+test("Datepicker", async ({ page }) => {
     const pageManager = new PageManager(page)
 
     await pageManager.navigateTo().goToDatepickerPage()

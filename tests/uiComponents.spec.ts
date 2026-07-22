@@ -4,27 +4,34 @@ test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:4200/')
 })
 
-test.describe('Form Layouts page', () => {
+test.describe.skip('Form Layouts page', () => {
+    test.describe.configure({ retries: 2 })
+
     test.beforeEach(async ({ page }) => {
         await page.getByText('Forms').click()
         await page.getByText('Form Layouts').click()
     })
 
-    test.skip('Input fields', async ({ page }) => {
+    test.skip('Input fields', async ({ page }, testInfo) => {
+        if (testInfo.retry) {
+            // we can for instance clear the DB here
+            // in case this scenario has failed previously
+        }
+
         const email = "kacper@gmail.com"
         const usingTheGridEmailInput = page.locator('nb-card', { hasText: "Using the Grid" }).getByRole('textbox', { name: "Email" })
 
         await usingTheGridEmailInput.fill(email)
         await usingTheGridEmailInput.clear()
 
-        await usingTheGridEmailInput.pressSequentially(email, { delay: 500 })
+        await usingTheGridEmailInput.pressSequentially(email, { delay: 250 })
 
         // generic assertion
         const inputValue = await usingTheGridEmailInput.inputValue()
         expect(inputValue).toEqual(email)
 
         // locator assertion
-        await expect(usingTheGridEmailInput).toHaveValue(email)
+        await expect(usingTheGridEmailInput).toHaveValue("itWillFail")
     })
 
     test.skip('Radio buttons', async ({ page }) => {

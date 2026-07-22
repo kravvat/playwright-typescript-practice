@@ -58,8 +58,8 @@ export class FormLayoutsPage extends HelperBase {
      * Verifies the entered credentials and checkbox selection.
      * @param rememberMe Optional checkbox selected before submission.
      */
-    async submitInlineForm(name: string, email: string, rememberMe: boolean) {
-        await this.inlineFormNameInput.fill(name)
+    async submitInlineForm(fullName: string, email: string, rememberMe: boolean) {
+        await this.inlineFormNameInput.fill(fullName)
         await this.inlineFormEmailInput.fill(email)
         if (rememberMe) {
             await this.inlineFormRememberMeCheckbox.check({ force: true })
@@ -67,7 +67,7 @@ export class FormLayoutsPage extends HelperBase {
         }
         await this.inlineFormSubmitButton.click()
 
-        await expect(this.inlineFormNameInput).toHaveValue(name)
+        await expect(this.inlineFormNameInput).toHaveValue(fullName)
         await expect(this.inlineFormEmailInput).toHaveValue(email)
     }
 }

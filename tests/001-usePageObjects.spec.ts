@@ -3,7 +3,7 @@ import { PageManager } from "../page-objects/pageManager"
 import { faker } from '@faker-js/faker'
 
 test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:4200/')
+    await page.goto('/')
 })
 
 test.skip('Navigation', async ({ page }) => {
@@ -25,8 +25,8 @@ test("Parametrized methods", async ({ page }) => {
     await pageManager.onFormLayoutsPage().submitUsingTheGrid(randomEmail, "Pass1@", "Option 2")
     await pageManager.onFormLayoutsPage().submitInlineForm(randomFullName, randomEmail, true)
 
-    const buffer = await page.screenshot()
-    console.log(buffer.toString('base64'))
+    // const buffer = await page.screenshot()
+    // console.log(buffer.toString('base64'))
 
     await page.screenshot({ path: "screenshots/parametrizedMethods.png", animations: 'disabled', fullPage: true })
     await page.locator('nb-card', { hasText: "Inline form" }).screenshot({ path: "screenshots/parametrizedMethodsInlineFormLocator.png" })

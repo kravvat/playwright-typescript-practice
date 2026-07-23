@@ -1,38 +1,29 @@
 import { defineConfig, devices } from '@playwright/test';
+import type { TestOptions } from './test-options';
 
-export default defineConfig({
-  /*
-  // whole suite timeout
-  globalTimeout: 60000,
-
-  // single scenario timeout
-  timeout: 10000,
-
-  // we can overwrite the default timeout for assertions
-  expect: {
-    timeout: 2000
-  },
-  */
-
+export default defineConfig<TestOptions>({
   testDir: './tests',
 
   fullyParallel: true,
 
   forbidOnly: !!process.env.CI,
 
-  retries: process.env.CI ? 2 : 1,
+  retries: process.env.CI ? 2 : 0,
 
   workers: process.env.CI ? 1 : undefined,
 
   reporter: 'html',
 
   use: {
+    baseURL: 'http://localhost:4200/',
+    globalsqaUrl: 'https://globalsqa.com/demo-site/draganddrop/',
+
     headless: false,
 
     viewport: null,
 
     video: {
-      mode: 'retain-on-failure',
+      mode: 'off',
       size: {
         width: 3840,
         height: 2160,

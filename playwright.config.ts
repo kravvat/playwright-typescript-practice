@@ -27,11 +27,21 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    /*
-    // lowest level timeouts
-    actionTimeout: 5000,
-    navigationTimeout: 5000,
-    */
+    headless: false,
+
+    viewport: null,
+
+    video: {
+      mode: 'retain-on-failure',
+      size: {
+        width: 3840,
+        height: 2160,
+      }
+    },
+
+    launchOptions: {
+      args: ['--start-maximized'],
+    },
 
     trace: 'on-first-retry',
   },
@@ -39,17 +49,9 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: {
+        browserName: 'chromium'
+      },
     },
   ],
 

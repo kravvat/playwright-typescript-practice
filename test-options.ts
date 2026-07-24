@@ -10,17 +10,17 @@ export type TestOptions = {
 export const test = base.extend<TestOptions>({
     globalsqaUrl: ['', { option: true }],
 
-    navigateToFormLayouts: [async ({ page }, use) => {
+    pageManager: async ({ page, navigateToFormLayouts }, use) => {
+        const pageManager = new PageManager(page)
+
+        await use(pageManager)
+    },
+
+    navigateToFormLayouts: async ({ page }, use) => {
         await page.goto('/')
         await page.getByText('Forms').click()
         await page.getByText('Form Layouts').click()
 
         await use()
-    }, { auto: true }],
-
-    pageManager: async ({ page }, use) => {
-        const pageManager = new PageManager(page)
-
-        await use(pageManager)
     },
 })

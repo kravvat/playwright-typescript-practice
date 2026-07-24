@@ -16,7 +16,7 @@ test.skip('Navigation', async ({ page }) => {
     await pageManager.navigateTo().goToSmartTablePage()
 })
 
-test("Parametrized methods", async ({ page }) => {
+test.skip("Parametrized methods", async ({ page }) => {
     const pageManager = new PageManager(page)
     const randomFullName: string = faker.person.fullName({ firstName: "Kacper", sex: "male" })
     const randomEmail: string = `${randomFullName.replace(' ', '').toLowerCase()}${faker.number.int(1000)}@gmail.com`

@@ -1,3 +1,4 @@
+import 'dotenv/config'
 import { defineConfig, devices } from '@playwright/test';
 import type { TestOptions } from './test-options';
 
@@ -20,18 +21,21 @@ export default defineConfig<TestOptions>({
 
     headless: false,
 
-    viewport: null,
+    viewport: {
+      width: 1280,
+      height: 720
+    },
 
     video: {
       mode: 'off',
       size: {
-        width: 3840,
-        height: 2160,
+        width: 1920,
+        height: 1080,
       }
     },
 
     launchOptions: {
-      args: ['--start-maximized'],
+      // args: ['--start-maximized'],
     },
 
     trace: 'on-first-retry',

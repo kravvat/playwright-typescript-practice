@@ -75,6 +75,7 @@
     "@types/node": "^12.20.55",
     "codelyzer": "^0.0.28",
     "conventional-changelog-cli": "^2.2.2",
+    "dotenv": "^17.4.2",
     "npm-run-all": "4.0.2",
     "rimraf": "2.6.1",
     "stylelint": "^15.6.0",

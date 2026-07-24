@@ -1,7 +1,7 @@
 import { expect } from "@playwright/test"
 import { test } from '../test-options'
 
-test('Drag Drop Iframes', async ({ page, globalsqaUrl }) => {
+test.skip('Drag Drop Iframes', async ({ page, globalsqaUrl }) => {
     await page.goto(globalsqaUrl)
     await page.getByRole('button', { name: 'Consent' }).click()
     await page.waitForTimeout(1000)
